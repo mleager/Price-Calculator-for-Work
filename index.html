@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<img src="https://wefindpest.com/wp-content/uploads/2017/08/Royal-Logo-new.png"
+    srcset="https://wefindpest.com/wp-content/uploads/2017/08/Royal-Logo-new.png 1x" width="350" height="175"
+    alt="Royal Pest &amp; Termite Logo" data-retina_logo_url="" class="fusion-standard-logo">
+
+<head>
+    <title>Fume Pricing Calculator</title>
+    <!-- Link to the CSS stylesheet -->
+    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
+    <style>
+        /* Center-align the entire page content */
+        body {
+            text-align: center;
+            margin: 0;
+            /* Remove default margin */
+            padding: 0;
+            /* Remove default padding */
+            border: 8px solid #1d8bda;
+            /* Add a border around the entire page */
+        }
+
+        /* Center-align the input elements */
+        label,
+        input,
+        button {
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /* Center-align the result text */
+        #fumigation_result,
+        #non_tent_result {
+            text-align: center;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+
+<body><br><br>
+    <label for="cubic_feet">Please enter the Cubic Feet:</label>
+    <input type="number" id="cubic_feet" required><br>
+    <button onclick="calculate()">Calculate</button>
+    <p id="fumigation_result"></p>
+    <p id="non_tent_result"></p>
+
+    <script>
+        // Your fume pricing data
+        var fumePricing = {
+            15: 1110,
+            16: 1135,
+            17: 1170,
+            18: 1200,
+            19: 1223,
+            20: 1291,
+            21: 1304,
+            22: 1336,
+            23: 1372,
+            24: 1403,
+            25: 1436,
+            26: 1447,
+            27: 1521,
+            28: 1543,
+            29: 1568,
+            30: 1611,
+            31: 1633,
+            32: 1665,
+            33: 1702,
+            34: 1736,
+            35: 1770,
+            36: 1803,
+            37: 1837,
+            38: 1875,
+            39: 1905,
+            40: 1929,
+            41: 1956,
+            42: 1980,
+            43: 2003,
+            44: 2031,
+            45: 2063,
+            46: 2098,
+            47: 2129,
+            48: 2165,
+            49: 2196,
+            50: 2231,
+        };
+
+        function calculate() {
+            var cubicFeet = parseInt(document.getElementById("cubic_feet").value);
+            var fumigationResultElement = document.getElementById("fumigation_result");
+            var nonTentResultElement = document.getElementById("non_tent_result");
+
+            // If the cubicFeet value is less than 16, use min prices
+            if (cubicFeet < 15) {
+                cubicFeet = 15;
+            }
+
+            // Calculate fumigation price
+            var fumigationPrice;
+
+            if (cubicFeet <= 50) {
+                fumigationPrice = fumePricing[cubicFeet] || 1110; // Default to $1110 if not found
+            } else {
+                var basePrice = fumePricing[50];
+                var additionalCubicFeet = cubicFeet - 50;
+                fumigationPrice = basePrice + (additionalCubicFeet * 50);
+            }
+
+            // Calculate non-tent price (25% less than fumigation)
+            var nonTentPrice = fumigationPrice * 0.75;
+
+            fumigationResultElement.textContent = "The cost of the Fumigation Treatment is: " + formatCurrency(fumigationPrice);
+            nonTentResultElement.textContent = "The cost of the Non-Tent Treatment is: " + formatCurrency(nonTentPrice);
+        }
+
+        function formatCurrency(number) {
+            return "$" + number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+        }
+    </script>
+</body>
+
+</html>
